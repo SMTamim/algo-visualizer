@@ -41,11 +41,14 @@ function setTemplate(id, number){
 
 function getArrayFromInput(){
     let input_array = arrayInputField.value.replace(/\s/g,'');
+    if(input_array.search(',') != -1){
+        input_array = input_array.replace(/[\[\]']+/g,'').split(',');
+    }
     let new_array = []
     let areAllInteger = true; 
     try {
         for(let i=0; i<input_array.length; i++) {
-            if(input_array[i] !== ',' && input_array[i] !== '[' && input_array[i]!== ']') {
+            if(input_array[i] !== '[' && input_array[i]!== ']') {
                 if(isNaN(input_array[i])) {
                     areAllInteger=false;
                     break;
