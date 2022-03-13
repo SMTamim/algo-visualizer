@@ -64,9 +64,9 @@ function setInputValuesToBars(new_array){
     let colors = setSelectedColors(new_array.length);
     console.log(colors); 
     new_array.forEach(element => {
-        let single_bar = setTemplate(id++, element);
+        let single_bar = setTemplate(id, element);
         stage.innerHTML += single_bar;
-        stage.style.width = new_array.length*75;
+        document.querySelector(".verticalBar-"+id).style.backgroundColor = colors[id++];
     });
 }
 
