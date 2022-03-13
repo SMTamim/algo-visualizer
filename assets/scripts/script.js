@@ -1,6 +1,7 @@
 const arrayInputField = document.getElementById('inputArray');
 const showActionBtn = document.getElementById('action');
 const stage = document.getElementById("stage");
+const selectAlgorithm = document.getElementById('algorithm');
 const colors = [
     '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
     '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -14,23 +15,33 @@ const colors = [
     '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'
 ];
 const root = document.querySelector(':root');
+var global_array = [];
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function setSelectedColors(numOfElement){
     let selectedColors = []
     for(let i=0; selectedColors.length<numOfElement; i++){
-        isInSelectedColors = selectedColors.find(x => x == colors[parseInt(Math.random(50)*50)]);
+        let color_index = parseInt(Math.random(50)*50);
+        let isInSelectedColors = selectedColors.find(x => x == colors[color_index]);
+        // console.log(isInSelectedColors);
         if(!isInSelectedColors)
-            selectedColors.push(colors[parseInt(Math.random(50)*50)]);
+            selectedColors.push(colors[color_index]);
     }
-
+    // console.log(selectedColors);
     return selectedColors;
 }
 
 function setTemplate(id, number){
     let single_bar = `
     <div class="verticalBar">
+        <div class="display_head">
+            
+        </div>
         <div class="verticalBar-${id} common-style">
-            <div class="number">
+            <div class="number" data-value="${number}">
                 ${number}
             </div>
         </div>
@@ -65,11 +76,10 @@ function getArrayFromInput(){
 function setInputValuesToBars(new_array, scaled_array){
     let id = 0;
     let colors = setSelectedColors(new_array.length);
-    console.log(colors); 
+    // console.log(colors); 
     new_array.forEach(element => {
         let single_bar = setTemplate(id, element);
         stage.innerHTML += single_bar;
-        console.log(document.querySelector(".verticalBar-"+id))
         document.querySelector(".verticalBar-"+id).style.height = scaled_array[id];
         document.querySelector(".verticalBar-"+id).style.backgroundColor = colors[id++];
     });
@@ -77,7 +87,7 @@ function setInputValuesToBars(new_array, scaled_array){
 
 showActionBtn.addEventListener('click', x =>{
     const [areAllInteger, new_array] = getArrayFromInput();
-    console.log(areAllInteger, new_array);
+    // console.log(areAllInteger, new_array);
     if(!areAllInteger) alert("Pleas Input Numbers only!");
     else{
         let max_no_length = Math.max(...new_array).toString().length;
@@ -87,10 +97,49 @@ showActionBtn.addEventListener('click', x =>{
         new_array.forEach(element => {
             scaled_array.push((parseInt(element/parseInt(modulo)*30)+20) + 'px');
         });
-        console.log(modulo, scaled_array);
+        // console.log(modulo, scaled_array);
         stage.innerHTML = '';
         root.style.setProperty('--numOfBars', new_array.length)
         setInputValuesToBars(new_array, scaled_array)
-        
+        searchValue = document.getElementById('searchValue').value;
+        let selectedAlgorithm = selectAlgorithm.value;
+        if(selectedAlgorithm == 0) {
+            linear_search(searchValue)
+        }
     }
 })
+
+// console.log(global_array);
+
+async function linear_search(x){
+    let verticalBars = document.querySelectorAll('.verticalBar');
+    let found = false;
+    for(let i=0; i<verticalBars.length; i++){
+        element = verticalBars[i];
+        let number = element.querySelector('.number');
+        let verticalBar = number.parentElement;
+        let displayHead = element.querySelector('.display_head');
+        // console.log(number, verticalBar, displayHead);
+        number = parseInt(number.innerText);
+        if (i!=0)
+            verticalBars[i-1].querySelector('.display_head').classList.remove('show_display_head');
+        displayHead.classList.add('show_display_head');
+        await sleep(200);
+        if(number === parseInt(x)){
+            found = true;
+            console.log("Found");
+            alert(`Found at position ${i+1}`);
+            displayHead = document.querySelectorAll('.display_head');
+            for(let j=0; j<=i; j++){
+                displayHead[j].classList.remove('show_display_head');
+            }
+            break;
+        }
+    };
+    if(!found){
+        verticalBars[verticalBars.length-1].querySelector('.display_head').classList.remove('show_display_head');
+        alert(`${x} Was not found in the array! :(`);
+    } 
+}
+// 12, 64, 39, 66, 99, 100, 0 ,1, 2,8
+// linear_search(99)

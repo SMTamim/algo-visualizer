@@ -10,19 +10,39 @@
 <body>
     <main>
         <div id="getInput">
-            <label for="input_array">
-                <h2 class="inputTitle">
-                    Enter an array or elements in the field below:
-                </h2>
-                <sub>
-                    Please keep the values between 0-100. Max 10 values.
-                </sub>
-            </label>
-            <input type="text" name="input_array" id="inputArray">
+            <div class="input_fields">
+                <label for="input_array">
+                    <h2 class="inputTitle">
+                        Enter an array or elements in the field below:
+                    </h2>
+                    <sub>
+                        Please keep the values between 0-100. Max 10 values.
+                    </sub>
+                    <br>
+                </label>
+                <input type="text" name="input_array" id="inputArray">
+            </div>
+            
+            <div class="algo_selection">
+                <label for="algorithm">
+                    <h2>Select a algorithm:</h2>
+                </label>
+                <select name="algorithm" id="algorithm">
+                    <option value="0" selected>Linear Search</option>
+                    <option value="1">Bubble Search</option>
+                </select>
+                <br>
+                <span>
+                    Enter the search value:
+                </span>
+                <input type="number" name="searchValue" id="searchValue">
+            </div>
             <button class="btn btn-submit" id="action">Show The Action</button>
+            
         </div>
         <div id="stage">
             <div class="verticalBar">
+                <div class="display_head "></div>
                 <div class="verticalBar-1 common-style">
                     <div class="number">
                         5
@@ -30,11 +50,13 @@
                 </div>
             </div>
             <div class="verticalBar">
+                <div class="display_head "></div>
                 <div class="verticalBar-2 common-style">
                     <div class="number">6</div>
                 </div>
             </div>
             <div class="verticalBar">
+                <div class="display_head "></div>
                 <div class="verticalBar-3 common-style">
                     <div class="number">
                         7
@@ -42,6 +64,7 @@
                 </div>
             </div>
             <div class="verticalBar">
+                <div class="display_head "></div>
                 <div class="verticalBar-4 common-style">
                     <div class="number">
                         8
