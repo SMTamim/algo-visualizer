@@ -1,0 +1,59 @@
+:root{
+
+}
+body{
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+main{
+    width: 100%;
+    border: 3px solid green;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+#stage{
+    position: absolute;
+    top: 80% ;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+#stage .verticalBar{
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+#stage  .verticalBar .common-style{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-right: 3px;
+    box-shadow: 5px 5px 8px #9f8181;
+    padding: 10px;
+    position: absolute;
+    width: 50px;
+    bottom:0;
+    left:50%;
+    transform: translate(-50%)
+}
+.verticalBar-1{
+    background-color: green;
+    height: 200px;
+}
+.verticalBar-2{
+    background-color: yellow;
+    height: 220px;
+}
+.verticalBar-3{
+    background-color: tomato;
+    height: 240px;
+}
+.verticalBar-4{
+    background-color: red;
+    height: 260px;
+}
