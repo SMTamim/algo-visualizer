@@ -1,6 +1,7 @@
 :root{
     --single_bar_width: 50px;
     --padding_width: 25px;
+    --numOfBars:4;
 }
 body{
     margin: 0; padding: 0;
@@ -54,7 +55,7 @@ main{
     top: 80% ;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: calc((var(--single_bar_width)*4 + var(--padding_width)*4));
+    width: calc((var(--single_bar_width)*var(--numOfBars) + var(--padding_width)*var(--numOfBars)));
     display: flex;
     border-bottom: 1px solid black;
 }
