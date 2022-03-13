@@ -47,7 +47,7 @@ function getArrayFromInput(){
     let new_array = []
     let areAllInteger = true; 
     try {
-        for(let i=0; i<input_array.length; i++) {
+        for(let i=0; i<input_array.length && i<10; i++) {
             if(input_array[i] !== '[' && input_array[i]!== ']') {
                 if(isNaN(input_array[i])) {
                     areAllInteger=false;
@@ -62,13 +62,15 @@ function getArrayFromInput(){
     return [areAllInteger, new_array];
 }
 
-function setInputValuesToBars(new_array){
+function setInputValuesToBars(new_array, scaled_array){
     let id = 0;
     let colors = setSelectedColors(new_array.length);
     console.log(colors); 
     new_array.forEach(element => {
         let single_bar = setTemplate(id, element);
         stage.innerHTML += single_bar;
+        console.log(document.querySelector(".verticalBar-"+id))
+        document.querySelector(".verticalBar-"+id).style.height = scaled_array[id];
         document.querySelector(".verticalBar-"+id).style.backgroundColor = colors[id++];
     });
 }
@@ -79,17 +81,16 @@ showActionBtn.addEventListener('click', x =>{
     if(!areAllInteger) alert("Pleas Input Numbers only!");
     else{
         let max_no_length = Math.max(...new_array).toString().length;
-        let modulo = '9';
-        for(let i=0; i<max_no_length-1; i++) modulo += '9';
+        let modulo = 10;
         let scaled_array = [];
         
         new_array.forEach(element => {
-            scaled_array.push(parseInt(element/parseInt(modulo)*100));
+            scaled_array.push((parseInt(element/parseInt(modulo)*30)+20) + 'px');
         });
         console.log(modulo, scaled_array);
         stage.innerHTML = '';
         root.style.setProperty('--numOfBars', new_array.length)
-        setInputValuesToBars(new_array)
+        setInputValuesToBars(new_array, scaled_array)
         
     }
 })
