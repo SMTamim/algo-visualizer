@@ -1,9 +1,11 @@
 :root{
-
+    --single_bar_width: 50px;
+    --padding_width: 25px;
 }
 body{
     margin: 0; padding: 0;
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 a{
     text-decoration: none;
@@ -14,13 +16,45 @@ main{
     height: 100vh;
     margin: 0 auto;
 }
+#getInput{
+    width: max-content;
+    margin: 0 auto;
+    font-family: calibri;
+    padding: 0;
+}
+#inputArray{
+    width: 98%;
+    padding: 7px 0;
+    font-family: roboto;
+    font-size: 20px;
+    height: 15px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.btn{
+    padding: 8px 50px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.btn-submit{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    background-color: rgb(255, 136, 0);
+    display: block;
+    margin: 0 auto;
+}
+.btn-submit:hover{
+    background-color: rgb(255, 168, 6);
+}
 
 #stage{
     position: absolute;
     top: 80% ;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20%;
+    width: calc((var(--single_bar_width)*4 + var(--padding_width)*4));
     display: flex;
     border-bottom: 1px solid black;
 }
@@ -36,7 +70,7 @@ main{
     box-shadow: 5px 5px 8px #9f8181;
     padding: 10px;
     position: absolute;
-    width: 50px;
+    width: var(--single_bar_width);
     bottom:0;
     left:50%;
     transform: translate(-50%)
