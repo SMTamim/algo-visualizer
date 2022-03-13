@@ -63,7 +63,7 @@ function getArrayFromInput(){
 }
 
 function setInputValuesToBars(new_array){
-    let id = 1;
+    let id = 0;
     let colors = setSelectedColors(new_array.length);
     console.log(colors); 
     new_array.forEach(element => {
@@ -78,8 +78,18 @@ showActionBtn.addEventListener('click', x =>{
     console.log(areAllInteger, new_array);
     if(!areAllInteger) alert("Pleas Input Numbers only!");
     else{
+        let max_no_length = Math.max(...new_array).toString().length;
+        let modulo = '9';
+        for(let i=0; i<max_no_length-1; i++) modulo += '9';
+        let scaled_array = [];
+        
+        new_array.forEach(element => {
+            scaled_array.push(parseInt(element/parseInt(modulo)*100));
+        });
+        console.log(modulo, scaled_array);
         stage.innerHTML = '';
         root.style.setProperty('--numOfBars', new_array.length)
         setInputValuesToBars(new_array)
+        
     }
 })
