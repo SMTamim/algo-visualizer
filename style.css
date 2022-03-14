@@ -50,20 +50,21 @@ main{
     flex-grow: 1;
 }
 #inputArray{
-    width: 90%;
-    padding: 10px 0;
+    width: 80%;
     font-family: roboto;
     font-size: 20px;
-    padding: 5px 10px;
+    color: white;
+    padding: 5px 20px;
     margin:10px 0;
     font-family: "fira code";
     border: 2px solid purple;
     border-radius: 50px;
     box-shadow: 5px 5px 8px gray;
     transition: width .5s ease-in-out, border-color .5s ease, box-shadow .5s ease;
+    background-color: rgba(15, 15, 15, .1);
 }
 #inputArray:focus, #inputArray:hover{
-    width: 92%;
+    width: 85%;
     border-color: tomato;
     outline: none!important;
     box-shadow: 5px 5px 8px rgb(226, 142, 142);
@@ -73,21 +74,57 @@ main{
     margin: 10px 0;
 }
 
-#algorithm{
+/* Algorithm Select styles */
+#algorithm{ 
     width: 95%;
     outline: none;
-    padding: 6px 5px;
+    padding: 8px 5px;
     font-family: "fira code";
     font-size: 16px;
     font-weight: bold;
     text-align: center;
+    color:white;
     margin-bottom: 20px;
+    background-color: rgba(15, 15, 15, .1);
+    border-radius: 20px;
+    appearance: none;
+    background: url("assets/images/arrowDown.png") no-repeat;
+    background-size: contain;
+    background-position: right;
+    box-shadow: 2px 2px 8px rgba(117, 107, 117, .1);
+    transition: background-color .5s ease, box-shadow .5s ease;
+}
+#algorithm:hover{
+    background-color: rgba(32, 7, 7, 0.3);
+    box-shadow: 2px 2px 8px rgb(66, 16, 7);
+}
+select option {
+    margin: 40px;
+    background: rgba(19, 6, 6, 0.3);
+    color: black;
 }
 
 #searchBox p{
     font-family: calibri;
     font-size: 19px;
     font-weight: bold;
+}
+#searchBox input[type="number"]{
+    padding: 5px 20px;
+    width: 80%;
+    border-radius: 20px;
+    outline: none!important;
+    border: 3px solid rgb(114, 128, 252);
+    background-color: transparent;
+    box-shadow: 2px 2px 8px rgba(128, 128, 128, .5);
+    text-align: center;
+    font-size: 20px;
+    font-family: consolas;
+    color: white;
+    transition: border .5s ease;
+}
+#searchBox input[type="number"]:hover, #searchBox input[type="number"]:focus{
+    border: 3px solid rgb(147, 255, 133);
 }
 
 .btn{
@@ -97,12 +134,16 @@ main{
 }
 
 .btn-submit{
-    float: left;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     background-color: rgb(255, 136, 0);
     display: block;
     margin: 19px auto;
+    
+    position: absolute;
+    left: 50%;
+    transform: translateX(-54%);
+    width: 74%;
 }
 .btn-submit:hover{
     background-color: rgb(255, 168, 6);
@@ -132,7 +173,10 @@ main{
     width: var(--single_bar_width);
     bottom:0;
     left:50%;
-    transform: translate(-50%)
+    transform: translate(-50%);
+    font-family: "Fira Code";
+    font-weight: bolder;
+    color: black;
 }
 .verticalBar-1{
     background-color: green;
