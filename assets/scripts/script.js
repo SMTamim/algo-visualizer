@@ -85,6 +85,18 @@ function setInputValuesToBars(new_array, scaled_array){
     });
 }
 
+showHead = element => {
+    element = element.querySelector('.display_head');
+    element.classList.add('show_display_head')
+}
+hideHead = element => {
+    element = element.querySelector('.display_head');
+    element.classList.remove('show_display_head')
+}
+getNumberInInteger = numElement =>{
+    return parseInt(numElement.querySelector('.number').innerText);
+}
+
 showActionBtn.addEventListener('click', x =>{
     const [areAllInteger, new_array] = getArrayFromInput();
     // console.log(areAllInteger, new_array);
@@ -102,37 +114,39 @@ showActionBtn.addEventListener('click', x =>{
         root.style.setProperty('--numOfBars', new_array.length)
         setInputValuesToBars(new_array, scaled_array)
         searchValue = document.getElementById('searchValue').value;
+        
+        const verticalBars = document.querySelectorAll('.verticalBar');
+        
         let selectedAlgorithm = selectAlgorithm.value;
-        if(selectedAlgorithm == 0) {
-            linear_search(searchValue)
-        }
+        if(selectedAlgorithm == 0)
+            linear_search(searchValue, verticalBars)
+        else if(selectedAlgorithm == 1)
+            bubble_sort(new_array, verticalBars)
     }
 })
 
 // console.log(global_array);
-
-async function linear_search(x){
-    let verticalBars = document.querySelectorAll('.verticalBar');
+/**
+ * The implementation of Linear Search Algorithm 
+ */
+async function linear_search(x, verticalBars){
     let found = false;
     for(let i=0; i<verticalBars.length; i++){
         element = verticalBars[i];
         let number = element.querySelector('.number');
-        let verticalBar = number.parentElement;
-        let displayHead = element.querySelector('.display_head');
-        // console.log(number, verticalBar, displayHead);
         number = parseInt(number.innerText);
+        // Hide previous items head
         if (i!=0)
-            verticalBars[i-1].querySelector('.display_head').classList.remove('show_display_head');
-        displayHead.classList.add('show_display_head');
+            hideHead(verticalBars[i-1])
+        // Show head on current item
+        showHead(element);
         await sleep(200);
         if(number === parseInt(x)){
             found = true;
             console.log("Found");
             alert(`Found at position ${i+1}`);
-            displayHead = document.querySelectorAll('.display_head');
-            for(let j=0; j<=i; j++){
-                displayHead[j].classList.remove('show_display_head');
-            }
+            // Hide head of current item
+            hideHead(element);
             break;
         }
     };
@@ -143,3 +157,38 @@ async function linear_search(x){
 }
 // 12, 64, 39, 66, 99, 100, 0 ,1, 2,8
 // linear_search(99)
+/**
+ * Implementation of Bubble Sort Algorithm
+ */
+
+async function bubble_sort(new_array, verticalBars){
+    for(let i=0; i<new_array.length; i++){
+        for(let j=0; j<new_array.length-i-1; j++){
+            let currentBar = verticalBars[j];
+            let nextBar = verticalBars[j+1];
+
+            let currentBarInnerHTML = currentBar.innerHTML;
+            let nextBarInnerHTML = nextBar.innerHTML;
+
+            let currentNumber = getNumberInInteger(currentBar);
+            let nextNumber = getNumberInInteger(nextBar);
+
+            showHead(currentBar);
+            showHead(nextBar);
+            await sleep(700);
+
+            // console.log(currentNumber, nextNumber);
+
+            if(currentNumber > nextNumber){
+                currentBar.innerHTML = nextBarInnerHTML;
+                nextBar.innerHTML = currentBarInnerHTML;
+                await sleep(500);
+            }
+            else if(currentNumber<nextNumber){
+                hideHead(currentBar)
+                hideHead(nextBar)
+            }
+        }
+    }
+    alert("Sorted")
+}

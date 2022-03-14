@@ -19,7 +19,7 @@ a{
 }
 .bg-image{
     background: url("assets/images/bg.png");
-    filter: blur(3px);
+    filter: blur(4px);
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
