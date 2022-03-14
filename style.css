@@ -3,46 +3,91 @@
     --padding_width: 25px;
     --numOfBars:4;
 }
+p{
+    margin: 0;
+    padding: 0;
+}
 body{
     margin: 0; padding: 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    overflow-y: hidden;
+    color: orange;
 }
 a{
     text-decoration: none;
+}
+.bg-image{
+    background: url("assets/images/bg.png");
+    filter: blur(2px);
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 main{
     width: 100%;
     border: 3px solid green;
     height: 100vh;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
 }
 #getInput{
     width: 80%;
-    height: 200px;
-    margin: 0 auto;
+    height: 90%;
     font-family: calibri;
-    padding: 0;
+    padding: 20px;
 }
-.input_fields{
-    float: left;
-    width: 50%;
-}
-.algo_selection{
-    width: 50%;
-    float: left;
+#getInput .input_fields{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25%;
+    border-right: 1px solid gray;
 }
 .btn-submit-section{
     flex-grow: 1;
 }
 #inputArray{
-    width: 50%;
-    padding: 7px 0;
+    width: 90%;
+    padding: 10px 0;
     font-family: roboto;
     font-size: 20px;
-    height: 15px;
-    padding: 5px;
+    padding: 5px 10px;
+    margin:10px 0;
+    font-family: "fira code";
+    border: 2px solid purple;
+    border-radius: 50px;
+    box-shadow: 5px 5px 8px gray;
+    transition: width .5s ease-in-out, border-color .5s ease, box-shadow .5s ease;
+}
+#inputArray:focus, #inputArray:hover{
+    width: 92%;
+    border-color: tomato;
+    outline: none!important;
+    box-shadow: 5px 5px 8px rgb(226, 142, 142);
+}
+
+.algo_selection label h2, .inputTitle{
+    margin: 10px 0;
+}
+
+#algorithm{
+    width: 95%;
+    outline: none;
+    padding: 6px 5px;
+    font-family: "fira code";
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
     margin-bottom: 20px;
+}
+
+#searchBox p{
+    font-family: calibri;
+    font-size: 19px;
+    font-weight: bold;
 }
 
 .btn{
@@ -66,7 +111,7 @@ main{
 #stage{
     position: absolute;
     top: 90% ;
-    left: 50%;
+    left: 60%;
     transform: translate(-50%, -50%);
     width: calc((var(--single_bar_width)*var(--numOfBars) + var(--padding_width)*var(--numOfBars)));
     display: flex;
