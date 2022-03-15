@@ -210,3 +210,20 @@ select option {
 .show_display_head{
     display: block;
 }
+
+.display_top_head{
+    display: none;     
+    height: 50px;
+    width: 50px;   
+    border: solid red;
+    border-width: 0px 10px 10px 0;    
+    z-index: 9999;     
+    position: absolute;     
+    bottom: -16px;     
+    left: 50%;     
+    transform: translate(-50%) rotate(45deg);
+}
+
+.show_display_top_head{
+    display: block;
+}

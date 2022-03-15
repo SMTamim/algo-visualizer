@@ -38,9 +38,8 @@ function setSelectedColors(numOfElement){
 function setTemplate(id, number){
     let single_bar = `
     <div class="verticalBar">
-        <div class="display_head">
-            
-        </div>
+        <div class="display_top_head"></div>
+        <div class="display_head"></div>
         <div class="verticalBar-${id} common-style">
             <div class="number" data-value="${number}">
                 ${number}
