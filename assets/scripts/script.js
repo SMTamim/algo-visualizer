@@ -1,6 +1,7 @@
 import { sleep, showHead, hideHead, getNumberInInteger } from "./common.js";
 import { linear_search } from "./linear_search.js";
 import {bubble_sort} from './bubble_sort.js';
+import { binary_search } from "./binary_search.js";
 
 const arrayInputField = document.getElementById('inputArray');
 const showActionBtn = document.getElementById('action');
@@ -64,7 +65,8 @@ function getArrayFromInput(){
                     areAllInteger=false;
                     break;
                 }
-                else new_array.push(parseInt(input_array[i]));
+                else if(parseInt(input_array[i])<=100)
+                    new_array.push(parseInt(input_array[i]));
             }
         };
     } catch (error) {
@@ -107,9 +109,12 @@ showActionBtn.addEventListener('click', x =>{
         
         let selectedAlgorithm = selectAlgorithm.value;
         if(selectedAlgorithm == 0)
-            linear_search(searchValue, verticalBars)
+            linear_search(searchValue, verticalBars);
         else if(selectedAlgorithm == 1)
-            bubble_sort(new_array, verticalBars)
+            bubble_sort(new_array, verticalBars, 500);
+        else if(selectedAlgorithm == 2){
+            binary_search(searchValue, new_array, verticalBars);
+        }
     }
 })
 
