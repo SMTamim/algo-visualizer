@@ -1,4 +1,4 @@
-import { sleep, showHead, hideHead, getNumberInInteger } from "./common.js";
+import { sleep, showHead, hideHead, getNumber } from "./common.js";
 
 /**
  * Implementation of Bubble Sort Algorithm
@@ -13,8 +13,8 @@ async function bubble_sort(new_array, verticalBars, sleep_time){
             let currentBarInnerHTML = currentBar.innerHTML;
             let nextBarInnerHTML = nextBar.innerHTML;
 
-            let currentNumber = getNumberInInteger(currentBar);
-            let nextNumber = getNumberInInteger(nextBar);
+            let currentNumber = getNumber(currentBar);
+            let nextNumber = getNumber(nextBar);
 
             showHead(currentBar);
             showHead(nextBar);
@@ -45,8 +45,8 @@ function not_synchronous_bubble_sort(new_array, verticalBars){
             let currentBarInnerHTML = currentBar.innerHTML;
             let nextBarInnerHTML = nextBar.innerHTML;
 
-            let currentNumber = getNumberInInteger(currentBar);
-            let nextNumber = getNumberInInteger(nextBar);
+            let currentNumber = getNumber(currentBar);
+            let nextNumber = getNumber(nextBar);
 
             showHead(currentBar);
             showHead(nextBar);

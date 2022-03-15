@@ -1,4 +1,4 @@
-import { sleep, showHead, hideHead, getNumberInInteger, hideTopHead, showTopHead, hideAll } from "./common.js";
+import { sleep, showHead, hideHead, getNumber, hideTopHead, showTopHead, hideAll } from "./common.js";
 import {not_synchronous_bubble_sort} from "./bubble_sort.js";
 
 /**
@@ -19,7 +19,7 @@ async function binary_search(x, new_array, verticalBars){
 
         await sleep(500);
 
-        midNumber = getNumberInInteger(verticalBars[mid]);
+        midNumber = getNumber(verticalBars[mid]);
         console.log("Mid = ", mid, midNumber, "left = ", left, "right = ", right);
         if(midNumber == x){
             alert(`Found ${x} at position ${mid}!`);
