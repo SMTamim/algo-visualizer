@@ -1,3 +1,7 @@
+import { sleep, showHead, hideHead, getNumberInInteger } from "./common.js";
+import { linear_search } from "./linear_search.js";
+import {bubble_sort} from './bubble_sort.js';
+
 const arrayInputField = document.getElementById('inputArray');
 const showActionBtn = document.getElementById('action');
 const stage = document.getElementById("stage");
@@ -16,10 +20,6 @@ const colors = [
 ];
 const root = document.querySelector(':root');
 var global_array = [];
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function setSelectedColors(numOfElement){
     let selectedColors = []
@@ -85,18 +85,6 @@ function setInputValuesToBars(new_array, scaled_array){
     });
 }
 
-showHead = element => {
-    element = element.querySelector('.display_head');
-    element.classList.add('show_display_head')
-}
-hideHead = element => {
-    element = element.querySelector('.display_head');
-    element.classList.remove('show_display_head')
-}
-getNumberInInteger = numElement =>{
-    return parseInt(numElement.querySelector('.number').innerText);
-}
-
 showActionBtn.addEventListener('click', x =>{
     const [areAllInteger, new_array] = getArrayFromInput();
     // console.log(areAllInteger, new_array);
@@ -113,7 +101,7 @@ showActionBtn.addEventListener('click', x =>{
         stage.innerHTML = '';
         root.style.setProperty('--numOfBars', new_array.length)
         setInputValuesToBars(new_array, scaled_array)
-        searchValue = document.getElementById('searchValue').value;
+        let searchValue = document.getElementById('searchValue').value;
         
         const verticalBars = document.querySelectorAll('.verticalBar');
         
@@ -126,69 +114,4 @@ showActionBtn.addEventListener('click', x =>{
 })
 
 // console.log(global_array);
-/**
- * The implementation of Linear Search Algorithm 
- */
-async function linear_search(x, verticalBars){
-    let found = false;
-    for(let i=0; i<verticalBars.length; i++){
-        element = verticalBars[i];
-        let number = element.querySelector('.number');
-        number = parseInt(number.innerText);
-        // Hide previous items head
-        if (i!=0)
-            hideHead(verticalBars[i-1])
-        // Show head on current item
-        showHead(element);
-        await sleep(200);
-        if(number === parseInt(x)){
-            found = true;
-            console.log("Found");
-            alert(`Found at position ${i+1}`);
-            // Hide head of current item
-            hideHead(element);
-            break;
-        }
-    };
-    if(!found){
-        verticalBars[verticalBars.length-1].querySelector('.display_head').classList.remove('show_display_head');
-        alert(`${x} Was not found in the array! :(`);
-    } 
-}
 // 12, 64, 39, 66, 99, 100, 0 ,1, 2,8
-// linear_search(99)
-/**
- * Implementation of Bubble Sort Algorithm
- */
-
-async function bubble_sort(new_array, verticalBars){
-    for(let i=0; i<new_array.length; i++){
-        for(let j=0; j<new_array.length-i-1; j++){
-            let currentBar = verticalBars[j];
-            let nextBar = verticalBars[j+1];
-
-            let currentBarInnerHTML = currentBar.innerHTML;
-            let nextBarInnerHTML = nextBar.innerHTML;
-
-            let currentNumber = getNumberInInteger(currentBar);
-            let nextNumber = getNumberInInteger(nextBar);
-
-            showHead(currentBar);
-            showHead(nextBar);
-            await sleep(700);
-
-            // console.log(currentNumber, nextNumber);
-
-            if(currentNumber > nextNumber){
-                currentBar.innerHTML = nextBarInnerHTML;
-                nextBar.innerHTML = currentBarInnerHTML;
-                await sleep(500);
-            }
-            else if(currentNumber<nextNumber){
-                hideHead(currentBar)
-                hideHead(nextBar)
-            }
-        }
-    }
-    alert("Sorted")
-}
