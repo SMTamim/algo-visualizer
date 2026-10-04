@@ -45,7 +45,7 @@
             <label class="av-field">
                 <span class="av-field__label">Algorithm</span>
                 <span class="av-select-wrap">
-                    <select class="av-select" name="algorithm" id="algorithm">
+                    <select class="av-select" name="algorithm" id="algorithm" aria-describedby="algorithmHint">
                         <option value="">Select an algorithm</option>
                         <option value="0">Linear Search</option>
                         <option value="1">Bubble Sort</option>
@@ -53,6 +53,7 @@
                         <option value="3">Selection Sort</option>
                     </select>
                 </span>
+                <p class="av-field__hint av-field__hint--error" id="algorithmHint" aria-live="polite" hidden>Pick an algorithm first.</p>
             </label>
 
             <label class="av-field" id="searchBox" hidden>

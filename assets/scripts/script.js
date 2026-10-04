@@ -15,6 +15,9 @@ const stage = document.getElementById("stage");
 const stageTitle = document.getElementById('stageTitle');
 const legend = document.getElementById('legend');
 const selectAlgorithm = document.getElementById('algorithm');
+const algorithmHint = document.getElementById('algorithmHint');
+const NUDGE_MS = 3000;
+let nudgeTimer;
 const themeToggle = document.getElementById('themeToggle');
 const generateBtn = document.getElementById('generate');
 const root = document.documentElement;
@@ -103,7 +106,28 @@ function toggleTheme(){
     try { localStorage.setItem('theme', theme); } catch (e) {}
 }
 
+// Run was pressed with no algorithm: flag the select for a few seconds
+function nudgeAlgorithmSelect(){
+    clearTimeout(nudgeTimer);
+    selectAlgorithm.setAttribute('aria-invalid', 'true');
+    algorithmHint.hidden = false;
+    const wrap = selectAlgorithm.parentElement;
+    wrap.classList.remove('is-nudged');
+    void wrap.offsetWidth; // restart the shake
+    wrap.classList.add('is-nudged');
+    selectAlgorithm.focus();
+    nudgeTimer = setTimeout(clearAlgorithmNudge, NUDGE_MS);
+}
+
+function clearAlgorithmNudge(){
+    clearTimeout(nudgeTimer);
+    selectAlgorithm.removeAttribute('aria-invalid');
+    selectAlgorithm.parentElement.classList.remove('is-nudged');
+    algorithmHint.hidden = true;
+}
+
 function onAlgorithmChange(){
+    if(selectAlgorithm.value) clearAlgorithmNudge();
     const algorithm = selectAlgorithm.value;
     searchBox.hidden = !SEARCH_ALGORITHMS.includes(algorithm);
     stageTitle.textContent = algorithm ? selectAlgorithm.selectedOptions[0].text : 'Your array';
@@ -157,7 +181,7 @@ showActionBtn.addEventListener('click', async x =>{
     const verticalBars = AlgoViz.renderStage(stage, new_array);
 
     if(selectedAlgorithm === ''){
-        setStatus("Pick an algorithm");
+        nudgeAlgorithmSelect();
         return;
     }
 

@@ -111,6 +111,28 @@
     border-color: var(--signal-miss);
 }
 
+/* Nudge when Run is pressed with no algorithm chosen */
+.av-select[aria-invalid="true"]{
+    border-color: var(--signal-miss);
+}
+.av-select-wrap{
+    display: block; /* inline spans can't be transformed */
+}
+.av-select-wrap.is-nudged{
+    animation: nudge .4s ease-in-out;
+}
+@keyframes nudge{
+    20%{ transform: translateX(-6px); }
+    40%{ transform: translateX(6px); }
+    60%{ transform: translateX(-4px); }
+    80%{ transform: translateX(4px); }
+}
+@media (prefers-reduced-motion: reduce){
+    .av-select-wrap.is-nudged{
+        animation: none;
+    }
+}
+
 .panel-secondary-action{
     align-self: flex-start;
 }
