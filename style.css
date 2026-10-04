@@ -54,6 +54,13 @@
     outline-offset: 3px;
 }
 
+/* The array field wraps and grows instead of scrolling sideways */
+.av-input--grow{
+    display: block;
+    resize: none;
+    overflow: hidden;
+}
+
 .panel-secondary-action{
     align-self: flex-start;
 }

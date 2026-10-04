@@ -52,6 +52,14 @@ function getArrayFromInput(){
     return ["", values];
 }
 
+// Fit the array field's height to its wrapped content
+function autosizeArrayField(){
+    const style = getComputedStyle(arrayInputField);
+    const borders = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+    arrayInputField.style.height = 'auto';
+    arrayInputField.style.height = `${arrayInputField.scrollHeight + borders}px`;
+}
+
 function showFieldError(field, hint, message){
     field.setAttribute('aria-invalid', 'true');
     hint.classList.add('av-field__hint--error');
@@ -102,10 +110,20 @@ function onAlgorithmChange(){
     renderLegend(algorithm);
 }
 
+arrayInputField.addEventListener('input', autosizeArrayField);
+// It's a list, not prose: Enter shouldn't add a line break
+arrayInputField.addEventListener('keydown', event => {
+    if(event.key === 'Enter') event.preventDefault();
+});
+window.addEventListener('resize', autosizeArrayField);
+autosizeArrayField();
+// Fira Code wraps differently from the fallback font, so measure again once it loads
+document.fonts?.ready.then(autosizeArrayField);
 themeToggle.addEventListener('click', toggleTheme);
 generateBtn.addEventListener('click', () => {
     const new_array = generateArray();
     arrayInputField.value = new_array.join(', ');
+    autosizeArrayField();
     clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
     AlgoViz.renderStage(stage, new_array);
     setStatus("Ready");
