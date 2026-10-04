@@ -61,6 +61,45 @@
     overflow: hidden;
 }
 
+/* Brackets drawn around the array field's contents, however many lines it wraps to */
+.array-field{
+    position: relative;
+    display: block;
+}
+.array-field::before,
+.array-field::after{
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    width: 7px;
+    border: 2.5px solid var(--ink-muted);
+    pointer-events: none;
+    transition: border-color .15s ease;
+}
+.array-field::before{
+    left: 12px;
+    border-right: 0;
+    border-radius: 3px 0 0 3px;
+}
+.array-field::after{
+    right: 12px;
+    border-left: 0;
+    border-radius: 0 3px 3px 0;
+}
+.array-field .av-input{
+    padding-left: 28px;
+    padding-right: 28px;
+}
+.array-field:focus-within::before,
+.array-field:focus-within::after{
+    border-color: var(--focus-ring);
+}
+.array-field:has([aria-invalid="true"])::before,
+.array-field:has([aria-invalid="true"])::after{
+    border-color: var(--signal-miss);
+}
+
 .panel-secondary-action{
     align-self: flex-start;
 }
