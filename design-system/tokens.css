@@ -1,0 +1,87 @@
+/* Algo Visualizer — tokens.css, compiled from tokens.json. Light is the default; set data-theme="dark" on <html> for dark. */
+
+:root, [data-theme="light"] {
+  --ground: #f7f7f7;
+  --surface: #ffffff;
+  --surface-sunken: #f0f0f0;
+  --border: #e5e5e5;
+  --border-strong: #afafaf;
+  --ink: #3c3c3c;
+  --ink-muted: #6b6b6b;
+  --action: #58cc02;
+  --action-edge: #58a700;
+  --on-action: #ffffff;
+  --focus-ring: #1cb0f6;
+  --tile-1: #ff6b5b;
+  --tile-2: #ff9f1c;
+  --tile-3: #ffd23f;
+  --tile-4: #8bd346;
+  --tile-5: #2ed8a3;
+  --tile-6: #3ec5f0;
+  --tile-7: #6c9bff;
+  --tile-8: #a98bff;
+  --tile-9: #ff7ec8;
+  --tile-10: #f2b880;
+  --tile-ink: #1c1b22;
+  --pointer: var(--ink);
+  --signal-found: #4c9a00;
+  --signal-miss: #d93a3f;
+  --edge-action: 0 4px 0 #58a700;
+  --edge-panel: 0 2px 0 #e5e5e5;
+  --edge-tile: inset 0 -4px 0 rgba(0, 0, 0, 0.16);
+}
+
+[data-theme="dark"] {
+  --ground: #1e1f22;
+  --surface: #2b2d31;
+  --surface-sunken: #232428;
+  --border: #3f4147;
+  --border-strong: #6d6f78;
+  --ink: #f2f3f5;
+  --ink-muted: #949ba4;
+  --action: #5865f2;
+  --action-edge: #4752c4;
+  --on-action: #ffffff;
+  --focus-ring: #00a8fc;
+  --tile-1: #ff7a6b;
+  --tile-2: #ffa94d;
+  --tile-3: #ffd866;
+  --tile-4: #9be05c;
+  --tile-5: #40e0b0;
+  --tile-6: #5ccff5;
+  --tile-7: #7ea8ff;
+  --tile-8: #b59cff;
+  --tile-9: #ff8fd0;
+  --tile-10: #f5c08f;
+  --tile-ink: #1c1b22;
+  --pointer: var(--ink);
+  --signal-found: #3bd16f;
+  --signal-miss: #ff6b70;
+  --edge-action: 0 4px 0 #4752c4;
+  --edge-panel: 0 2px 0 #18191c;
+  --edge-tile: inset 0 -4px 0 rgba(0, 0, 0, 0.16);
+}
+
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --font-display: Nunito, "Outfit", system-ui, sans-serif;
+  --font-body: Nunito, system-ui, sans-serif;
+  --font-mono: "Fira Code", ui-monospace, Menlo, monospace;
+}
+
+/* Type styles (one class per style in tokens.json) */
+.display { font-family: var(--font-display); font-size: 4.25rem; line-height: 1.05; font-weight: 900; letter-spacing: -0.02em; }
+.h1 { font-family: var(--font-display); font-size: 2.25rem; line-height: 1.15; font-weight: 800; }
+.h2 { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.25; font-weight: 800; }
+.body { font-family: var(--font-body); font-size: 1rem; line-height: 1.55; font-weight: 600; }
+.hint { font-family: var(--font-body); font-size: 0.875rem; line-height: 1.45; font-weight: 600; }
+.label { font-family: var(--font-body); font-size: 0.75rem; line-height: 1.3; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.tile-number { font-family: var(--font-mono); font-size: 1rem; line-height: 1; font-weight: 700; }
+.input-mono { font-family: var(--font-mono); font-size: 1.125rem; line-height: 1.4; font-weight: 500; }
