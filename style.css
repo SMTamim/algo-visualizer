@@ -1,229 +1,134 @@
-:root{
-    --single_bar_width: 50px;
-    --padding_width: 25px;
-    --numOfBars:4;
-}
-p{
-    margin: 0;
-    padding: 0;
-}
-body{
-    margin: 0; padding: 0;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    color: orange;
-}
-a{
-    text-decoration: none;
-}
-.bg-image{
-    background: url("assets/images/bg.png");
-    filter: blur(4px);
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-main{
-    width: 100%;
-    border: 3px solid green;
-    height: 100vh;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 30% 70%;
-}
-#getInput{
-    width: 80%;
-    height: 90%;
-    font-family: calibri;
-    padding: 20px;
-}
-#getInput .input_fields{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 25%;
-    border-right: 1px solid gray;
-}
-.btn-submit-section{
-    flex-grow: 1;
-}
-#inputArray{
-    width: 80%;
-    font-family: roboto;
-    font-size: 20px;
-    color: white;
-    padding: 5px 20px;
-    margin:10px 0;
-    font-family: "fira code";
-    border: 2px solid purple;
-    border-radius: 50px;
-    box-shadow: 5px 5px 8px gray;
-    transition: width .5s ease-in-out, border-color .5s ease, box-shadow .5s ease;
-    background-color: rgba(15, 15, 15, .1);
-}
-#inputArray:focus, #inputArray:hover{
-    width: 85%;
-    border-color: tomato;
-    outline: none!important;
-    box-shadow: 5px 5px 8px rgb(226, 142, 142);
+/* App layout only. Colour, type and component styles live in design-system/. */
+
+[hidden]{
+    display: none !important;
 }
 
-.algo_selection label h2, .inputTitle{
-    margin: 10px 0;
-}
-
-/* Algorithm Select styles */
-#algorithm{ 
-    width: 95%;
-    outline: none;
-    padding: 8px 5px;
-    font-family: "fira code";
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    color:white;
-    margin-bottom: 20px;
-    background-color: rgba(15, 15, 15, .1);
-    border-radius: 20px;
-    appearance: none;
-    background: url("assets/images/arrowDown.png") no-repeat;
-    background-size: contain;
-    background-position: right;
-    box-shadow: 2px 2px 8px rgba(117, 107, 117, .1);
-    transition: background-color .5s ease, box-shadow .5s ease;
-}
-#algorithm:hover{
-    background-color: rgba(32, 7, 7, 0.3);
-    box-shadow: 2px 2px 8px rgb(66, 16, 7);
-}
-select option {
-    margin: 40px;
-    background: rgba(19, 6, 6, 0.3);
-    color: black;
-}
-
-#searchBox p{
-    font-family: calibri;
-    font-size: 19px;
-    font-weight: bold;
-}
-#searchBox input[type="number"]{
-    padding: 5px 20px;
-    width: 80%;
-    border-radius: 20px;
-    outline: none!important;
-    border: 3px solid rgb(114, 128, 252);
-    background-color: transparent;
-    box-shadow: 2px 2px 8px rgba(128, 128, 128, .5);
-    text-align: center;
-    font-size: 20px;
-    font-family: consolas;
-    color: white;
-    transition: border .5s ease;
-}
-#searchBox input[type="number"]:hover, #searchBox input[type="number"]:focus{
-    border: 3px solid rgb(147, 255, 133);
-}
-
-.btn{
-    padding: 8px 50px;
-    border-radius: 5px;
-    border: 2px solid black;
-}
-
-.btn-submit{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 20px;
-    background-color: rgb(255, 136, 0);
-    display: block;
-    margin: 19px auto;
-    
-    position: absolute;
-    left: 50%;
-    transform: translateX(-54%);
-    width: 74%;
-}
-.btn-submit:hover{
-    background-color: rgb(255, 168, 6);
-}
-
-#stage{
-    position: absolute;
-    top: 90% ;
-    left: 60%;
-    transform: translate(-50%, -50%);
-    width: calc((var(--single_bar_width)*var(--numOfBars) + var(--padding_width)*var(--numOfBars)));
+.app-header{
     display: flex;
-    border-bottom: 1px solid black;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-lg) 0;
+    box-sizing: border-box;
 }
-#stage .verticalBar{
-    position: relative;
-    flex: 1;
-    text-align: center;
-}
-#stage  .verticalBar .common-style{
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    margin-right: 3px;
-    box-shadow: 5px 5px 8px #9f8181;
-    padding: 10px;
-    position: absolute;
-    width: var(--single_bar_width);
-    bottom:0;
-    left:50%;
-    transform: translate(-50%);
-    font-family: "Fira Code";
-    font-weight: bolder;
-    color: black;
-}
-.verticalBar-1{
-    background-color: green;
-    height: 200px;
-}
-.verticalBar-2{
-    background-color: yellow;
-    height: 220px;
-}
-.verticalBar-3{
-    background-color: tomato;
-    height: 240px;
-}
-.verticalBar-4{
-    background-color: red;
-    height: 260px;
+.app-title{
+    margin: 0;
 }
 
-.display_head{
-    display: none;     
-    height: 10px;
-    width: 50px;
-    padding: 0 10px;     
-    background: red;     
-    z-index: 9999;     
-    position: absolute;     
-    bottom: -16px;     
-    left: 50%;     
-    transform: translate(-50%);
-}
-.show_display_head{
-    display: block;
+.app{
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    align-items: start;
 }
 
-.display_top_head{
-    display: none;     
-    height: 50px;
-    width: 50px;   
-    border: solid red;
-    border-width: 0px 10px 10px 0;    
-    z-index: 9999;     
-    position: absolute;     
-    bottom: -16px;     
-    left: 50%;     
-    transform: translate(-50%) rotate(45deg);
+.app-footer{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg) var(--space-lg);
+    box-sizing: border-box;
+    color: var(--ink-muted);
+}
+.app-footer p{
+    margin: 0;
+}
+.app-footer a{
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+.app-footer a:hover{
+    text-decoration-color: var(--border-strong);
+}
+.app-footer a:focus-visible{
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
 }
 
-.show_display_top_head{
-    display: block;
+.panel-secondary-action{
+    align-self: flex-start;
+}
+
+/* Room for the tallest tile plus its arrow, pointer and lift */
+.av-stage__floor{
+    min-height: 248px;
+}
+/* Tiles share the floor so up to 10 fit without horizontal scroll */
+.av-stage__floor .av-slot{
+    flex: 0 1 48px;
+    min-width: 0;
+}
+.av-stage__floor .av-tile{
+    width: 100%;
+}
+.av-stage__floor .av-pointer{
+    width: min(40px, 100%);
+}
+/* Keep the arrow clear of a tile that lifts before a swap */
+.av-slot:has(.av-tile[data-state="active"]) .av-arrow{
+    translate: 0 -8px;
+}
+
+/* Legend marks for states the design system has no legend mark for */
+.legend-mark-arrow{
+    margin: 0;
+}
+.legend-mark-lift{
+    width: 9px;
+    height: 9px;
+    margin: 4px 4px 0;
+    border: solid var(--ink);
+    border-width: 2.5px 0 0 2.5px;
+    border-radius: 1px;
+    transform: rotate(45deg);
+}
+.legend-mark-check{
+    width: 6px;
+    height: 11px;
+    margin: 0 6px 3px;
+    border: solid var(--ink);
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+/* Two columns stop fitting 10 tiles below this width */
+@media (max-width: 1023px){
+    .app{
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+@media (max-width: 759px){
+    .app-header{
+        padding: var(--space-md) var(--space-md) 0;
+    }
+    .app-footer{
+        padding: 0 var(--space-md) var(--space-md);
+    }
+    .app{
+        padding: var(--space-md);
+        gap: var(--space-md);
+    }
+    .av-panel,
+    .av-stage{
+        padding: var(--space-md);
+    }
+}
+@media (max-width: 479px){
+    .av-stage__floor{
+        gap: var(--space-xs);
+        padding-left: var(--space-sm);
+        padding-right: var(--space-sm);
+    }
+    .av-stage__floor .av-tile{
+        font-size: 0.75rem;
+    }
 }

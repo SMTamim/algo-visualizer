@@ -1,125 +1,160 @@
-import { sleep, showHead, hideHead, getNumber } from "./common.js";
+import { setStatus } from "./common.js";
 import { linear_search } from "./linear_search.js";
 import {bubble_sort} from './bubble_sort.js';
 import { binary_search } from "./binary_search.js";
 import { selection_sort } from "./selection_sort.js";
 
+const AlgoViz = window.AlgoViz;
 const arrayInputField = document.getElementById('inputArray');
+const arrayHint = document.getElementById('inputArrayHint');
+const searchField = document.getElementById('searchValue');
+const searchHint = document.getElementById('searchValueHint');
+const searchBox = document.getElementById('searchBox');
 const showActionBtn = document.getElementById('action');
 const stage = document.getElementById("stage");
+const stageTitle = document.getElementById('stageTitle');
+const legend = document.getElementById('legend');
 const selectAlgorithm = document.getElementById('algorithm');
-const colors = [
-    '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-    '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-    '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
-    '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-    '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
-    '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-    '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
-    '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-    '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
-    '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'
-];
-const root = document.querySelector(':root');
-var global_array = [];
+const themeToggle = document.getElementById('themeToggle');
+const generateBtn = document.getElementById('generate');
+const root = document.documentElement;
 
-function setSelectedColors(numOfElement){
-    let selectedColors = []
-    for(let i=0; selectedColors.length<numOfElement; i++){
-        let color_index = parseInt(Math.random(50)*50);
-        let isInSelectedColors = selectedColors.find(x => x == colors[color_index]);
-        // console.log(isInSelectedColors);
-        if(!isInSelectedColors)
-            selectedColors.push(colors[color_index]);
-    }
-    // console.log(selectedColors);
-    return selectedColors;
-}
+const SEARCH_ALGORITHMS = ['0', '2'];
+const ARRAY_HINT = arrayHint.textContent;
+const SEARCH_HINT = searchHint.textContent;
 
-function setTemplate(id, number){
-    let single_bar = `
-    <div class="verticalBar">
-        <div class="display_top_head"></div>
-        <div class="display_head"></div>
-        <div class="verticalBar-${id} common-style">
-            <div class="number" data-value="${number}">
-                ${number}
-            </div>
-        </div>
-    </div>
-    `
-    return single_bar;
-}
+// Legend entries per algorithm: only the states that algorithm uses
+const LEGEND_MARKS = {
+    pointer: '<span class="av-legend__mark"></span>',
+    arrow: '<span class="av-arrow av-arrow--on legend-mark-arrow"></span>',
+    lift: '<span class="legend-mark-lift"></span>',
+    found: '<span class="av-legend__mark av-legend__mark--ring"></span>',
+    dimmed: '<span class="av-legend__mark av-legend__mark--dim"></span>',
+    sorted: '<span class="legend-mark-check"></span>',
+};
+const LEGENDS = {
+    '': [],
+    '0': [['pointer', 'Checking'], ['found', 'Found']],
+    '1': [['pointer', 'Comparing'], ['lift', 'About to swap'], ['sorted', 'Sorted']],
+    '2': [['pointer', 'Left, middle and right'], ['arrow', 'Middle'], ['dimmed', 'Ruled out'], ['found', 'Found']],
+    '3': [['pointer', 'Comparing'], ['arrow', 'Smallest so far'], ['lift', 'About to swap'], ['sorted', 'Sorted']],
+};
 
+// Returns [error, values]; error is an empty string when the input is valid
 function getArrayFromInput(){
-    let input_array = arrayInputField.value.replace(/\s/g,'');
-    if(input_array.search(',') != -1){
-        input_array = input_array.replace(/[\[\]']+/g,'').split(',');
-    }
-    let new_array = []
-    let areAllInteger = true; 
-    try {
-        for(let i=0; i<input_array.length && i<10; i++) {
-            if(input_array[i] !== '[' && input_array[i]!== ']') {
-                if(isNaN(input_array[i])) {
-                    areAllInteger=false;
-                    break;
-                }
-                else if(parseInt(input_array[i])<=100)
-                    new_array.push(parseInt(input_array[i]));
-            }
-        };
-    } catch (error) {
-        alert(error);
-    }
-    return [areAllInteger, new_array];
+    const tokens = arrayInputField.value.replace(/[\[\]\s]/g, '').split(',').filter(token => token !== '');
+    if(tokens.length === 0) return ["Enter at least one number.", []];
+    if(tokens.some(token => !/^-?\d+(\.\d+)?$/.test(token))) return ["Numbers only, please.", []];
+    if(tokens.some(token => !/^-?\d+$/.test(token))) return ["Whole numbers only, please.", []];
+    const values = tokens.map(Number);
+    if(values.some(value => value < 0 || value > 100)) return ["Keep each value between 0 and 100.", []];
+    if(values.length > 10) return ["Up to 10 values, please.", []];
+    return ["", values];
 }
 
-function setInputValuesToBars(new_array, scaled_array){
-    let id = 0;
-    let colors = setSelectedColors(new_array.length);
-    // console.log(colors); 
-    new_array.forEach(element => {
-        let single_bar = setTemplate(id, element);
-        stage.innerHTML += single_bar;
-        document.querySelector(".verticalBar-"+id).style.height = scaled_array[id];
-        document.querySelector(".verticalBar-"+id).style.backgroundColor = colors[id++];
-    });
+function showFieldError(field, hint, message){
+    field.setAttribute('aria-invalid', 'true');
+    hint.classList.add('av-field__hint--error');
+    hint.textContent = message;
+    field.focus();
 }
 
-showActionBtn.addEventListener('click', x =>{
-    const [areAllInteger, new_array] = getArrayFromInput();
-    // console.log(areAllInteger, new_array);
-    if(!areAllInteger) alert("Pleas Input Numbers only!");
-    else{
-        let max_no_length = Math.max(...new_array).toString().length;
-        let modulo = 10;
-        let scaled_array = [];
-        
-        new_array.forEach(element => {
-            scaled_array.push((parseInt(element/parseInt(modulo)*30)+20) + 'px');
-        });
-        // console.log(modulo, scaled_array);
-        stage.innerHTML = '';
-        root.style.setProperty('--numOfBars', new_array.length)
-        setInputValuesToBars(new_array, scaled_array)
-        let searchValue = document.getElementById('searchValue').value;
-        
-        const verticalBars = document.querySelectorAll('.verticalBar');
-        
-        let selectedAlgorithm = selectAlgorithm.value;
-        if(selectedAlgorithm == 0)
-            linear_search(searchValue, verticalBars);
-        else if(selectedAlgorithm == 1)
-            bubble_sort(new_array, verticalBars, 500);
-        else if(selectedAlgorithm == 2){
-            binary_search(searchValue, new_array, verticalBars);
-        }
-        else if(selectedAlgorithm == 3){
-            selection_sort(verticalBars);
-        }
+function clearFieldError(field, hint, text){
+    field.removeAttribute('aria-invalid');
+    hint.classList.remove('av-field__hint--error');
+    hint.textContent = text;
+}
+
+function renderLegend(algorithm){
+    legend.innerHTML = LEGENDS[algorithm]
+        .map(([mark, text]) => `<span class="av-legend">${LEGEND_MARKS[mark]}${text}</span>`)
+        .join('');
+}
+
+function generateArray(){
+    const length = 6 + Math.floor(Math.random()*5); // 6 to 10 values
+    return Array.from({length}, () => Math.floor(Math.random()*101));
+}
+
+function setRunning(running){
+    showActionBtn.disabled = running;
+    generateBtn.disabled = running;
+    selectAlgorithm.disabled = running;
+    showActionBtn.textContent = running ? 'Running…' : 'Show the action';
+}
+
+// The button names the theme it switches to
+function syncThemeToggle(){
+    themeToggle.textContent = root.dataset.theme === 'dark' ? 'Light theme' : 'Dark theme';
+}
+
+function toggleTheme(){
+    const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = theme;
+    syncThemeToggle();
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+}
+
+function onAlgorithmChange(){
+    const algorithm = selectAlgorithm.value;
+    searchBox.hidden = !SEARCH_ALGORITHMS.includes(algorithm);
+    stageTitle.textContent = algorithm ? selectAlgorithm.selectedOptions[0].text : 'Your array';
+    renderLegend(algorithm);
+}
+
+themeToggle.addEventListener('click', toggleTheme);
+generateBtn.addEventListener('click', () => {
+    const new_array = generateArray();
+    arrayInputField.value = new_array.join(', ');
+    clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
+    AlgoViz.renderStage(stage, new_array);
+    setStatus("Ready");
+});
+syncThemeToggle();
+selectAlgorithm.addEventListener('change', onAlgorithmChange);
+onAlgorithmChange();
+AlgoViz.renderStage(stage, getArrayFromInput()[1]);
+
+showActionBtn.addEventListener('click', async x =>{
+    const [inputError, new_array] = getArrayFromInput();
+    if(inputError){
+        showFieldError(arrayInputField, arrayHint, inputError);
+        return;
     }
+    clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
+
+    let selectedAlgorithm = selectAlgorithm.value;
+    // An empty search value used to make binary search "find" a 0
+    let searchValue = searchField.value;
+    if(SEARCH_ALGORITHMS.includes(selectedAlgorithm)){
+        if(!/^-?\d+$/.test(searchValue)){
+            showFieldError(searchField, searchHint, "Enter a whole number to search for.");
+            return;
+        }
+        clearFieldError(searchField, searchHint, SEARCH_HINT);
+        searchValue = Number(searchValue);
+    }
+
+    // Each value's tile colour comes from its original index and moves with it
+    const verticalBars = AlgoViz.renderStage(stage, new_array);
+
+    if(selectedAlgorithm === ''){
+        setStatus("Pick an algorithm");
+        return;
+    }
+
+    setRunning(true);
+    if(selectedAlgorithm == 0)
+        await linear_search(searchValue, verticalBars);
+    else if(selectedAlgorithm == 1)
+        await bubble_sort(new_array, verticalBars, 500);
+    else if(selectedAlgorithm == 2){
+        await binary_search(searchValue, new_array, verticalBars);
+    }
+    else if(selectedAlgorithm == 3){
+        await selection_sort(verticalBars);
+    }
+    setRunning(false);
 })
 
-// console.log(global_array);
 // 12, 64, 39, 66, 99, 100, 0 ,1, 2,8

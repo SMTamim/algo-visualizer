@@ -1,29 +1,39 @@
-import { sleep, showHead, hideHead, getNumber, hideTopHead, showTopHead, hideAll } from "./common.js";
+import { sleep, showHead, hideHead, getNumber, hideTopHead, showTopHead, hideAll, setState, setStatus } from "./common.js";
 import {not_synchronous_bubble_sort} from "./bubble_sort.js";
 
 /**
  * The implementation of Binary Search
  */
 
+// Fade the tiles binary search has already ruled out
+function dimOutside(verticalBars, left, right){
+    verticalBars.forEach((bar, i) => setState(bar, i < left || i > right ? "dimmed" : undefined));
+}
+
 async function binary_search(x, new_array, verticalBars){
     let left = 0, right = verticalBars.length-1, mid, midNumber;
     not_synchronous_bubble_sort(new_array, verticalBars);
+    setStatus("Sorted first, then searching", "running");
+    await sleep(800);
     
     while(left <= right){
+        dimOutside(verticalBars, left, right);
         showHead(verticalBars[left]);
         showHead(verticalBars[right]);
 
         mid = parseInt((left+right)/2);
         showHead(verticalBars[mid]);
         showTopHead(verticalBars[mid]);
+        setStatus(`Checking index ${mid}`, "running");
 
         await sleep(500);
 
         midNumber = getNumber(verticalBars[mid]);
         console.log("Mid = ", mid, midNumber, "left = ", left, "right = ", right);
         if(midNumber == x){
-            alert(`Found ${x} at position ${mid}!`);
             hideAll(verticalBars);
+            setState(verticalBars[mid], "found");
+            setStatus(`Found at index ${mid}`, "found");
             return;
         }
         else{
@@ -37,8 +47,8 @@ async function binary_search(x, new_array, verticalBars){
                 right = mid - 1;
         }
     }
-    alert(`Given element ${x} was not found!`)
     hideAll(verticalBars);
+    setStatus("Not found", "miss");
 }
 
 

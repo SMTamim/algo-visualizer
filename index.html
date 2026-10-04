@@ -1,85 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algo-Visualizer Repo</title>
+    <title>Algo Visualizer</title>
+    <script>
+        // Pick the theme before first paint: saved choice, else the system setting
+        (function () {
+            var theme;
+            try { theme = localStorage.getItem('theme'); } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark')
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="design-system/tokens.css">
+    <link rel="stylesheet" href="design-system/components.css">
     <link rel="stylesheet" href="style.css">
+    <script src="design-system/algoviz.js"></script>
 </head>
-<body>
-    <div class="bg-image"></div>
-    <main>
-        <section id="getInput">
-            <div class="input_fields">
-                <label for="input_array">
-                    <h2 class="inputTitle">
-                        Enter an array or elements in the field below:
-                    </h2>
-                    <sub>
-                        Please keep the values between 0-100. Max 10 values.
-                    </sub>
-                    <br>
-                </label>
-                <input type="text" name="input_array" id="inputArray">
+<body class="av-root">
+    <header class="app-header">
+        <h1 class="h2 app-title">Algo Visualizer</h1>
+        <button type="button" class="av-btn av-btn--secondary" id="themeToggle">Dark theme</button>
+    </header>
 
-                <div class="algo_selection">
-                    <label for="algorithm">
-                        <h2>Select an algorithm:</h2>
-                    </label>
-                    <select name="algorithm" id="algorithm">
+    <main class="app">
+        <section class="av-panel" id="getInput" aria-labelledby="panelTitle">
+            <h2 class="av-panel__title" id="panelTitle">Set up a run</h2>
+
+            <label class="av-field">
+                <span class="av-field__label">Your array</span>
+                <input class="av-input" type="text" name="input_array" id="inputArray" value="12, 64, 39, 66, 99, 8" autocomplete="off" spellcheck="false" aria-describedby="inputArrayHint">
+                <p class="av-field__hint" id="inputArrayHint">Values 0–100, up to 10 of them.</p>
+            </label>
+            <button type="button" class="av-btn av-btn--secondary panel-secondary-action" id="generate">Random array</button>
+
+            <label class="av-field">
+                <span class="av-field__label">Algorithm</span>
+                <span class="av-select-wrap">
+                    <select class="av-select" name="algorithm" id="algorithm">
                         <option value="">Select an algorithm</option>
                         <option value="0">Linear Search</option>
                         <option value="1">Bubble Sort</option>
                         <option value="2">Binary Search</option>
                         <option value="3">Selection Sort</option>
                     </select>
-                    <br>
-                    <div id="searchBox">
-                        <p>
-                            Enter the search value:
-                        </p>
-                        <input type="number" name="searchValue" id="searchValue">
-                    </div>
-                </div>
-                <button class="btn btn-submit" id="action">Show The Action</button>
-            </div>
+                </span>
+            </label>
+
+            <label class="av-field" id="searchBox" hidden>
+                <span class="av-field__label">Search for</span>
+                <input class="av-input" type="number" name="searchValue" id="searchValue" aria-describedby="searchValueHint">
+                <p class="av-field__hint" id="searchValueHint">The value to look for.</p>
+            </label>
+
+            <button class="av-btn av-btn--primary av-btn--block" id="action">Show the action</button>
         </section>
 
-        <div id="stage">
-            <div class="verticalBar">
-                <div class="display_top_head"></div>
-                <div class="display_head "></div>
-                <div class="verticalBar-1 common-style">
-                    <div class="number">
-                        5
-                    </div>
-                </div>
+        <section class="av-stage" aria-labelledby="stageTitle">
+            <div class="av-stage__head">
+                <h2 class="av-stage__title" id="stageTitle">Your array</h2>
+                <span class="av-status" id="status" role="status" aria-live="polite">
+                    <span class="av-status__dot"></span><span id="statusText">Ready</span>
+                </span>
             </div>
-            <div class="verticalBar">
-                <div class="display_head "></div>
-                <div class="verticalBar-2 common-style">
-                    <div class="number">6</div>
-                </div>
-            </div>
-            <div class="verticalBar">
-                <div class="display_head "></div>
-                <div class="verticalBar-3 common-style">
-                    <div class="number">
-                        7
-                    </div>
-                </div>
-            </div>
-            <div class="verticalBar">
-                <div class="display_head "></div>
-                <div class="verticalBar-4 common-style">
-                    <div class="number">
-                        8
-                    </div>
-                </div>
-            </div>
-        </div>
+            <div class="av-stage__floor" id="stage"></div>
+            <div class="av-stage__legend" id="legend"></div>
+        </section>
     </main>
+
+    <footer class="app-footer">
+        <p class="hint">
+            Made by S M Tamim Mahmud
+            <span aria-hidden="true">·</span>
+            <a href="https://github.com/SMTamim">GitHub</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://smtamim.dev">Portfolio</a>
+        </p>
+    </footer>
 
     <script type="module" src="assets/scripts/script.js"></script>
 </body>

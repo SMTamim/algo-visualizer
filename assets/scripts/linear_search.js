@@ -1,4 +1,4 @@
-import { sleep, showHead, hideHead, showTopHead, hideTopHead, hideAll } from "./common.js";
+import { sleep, showHead, hideHead, showTopHead, hideTopHead, hideAll, getNumber, setState, setStatus } from "./common.js";
 /**
  * The implementation of Linear Search Algorithm 
  */
@@ -6,8 +6,7 @@ async function linear_search(x, verticalBars){
     let found = false;
     for(let i=0; i<verticalBars.length; i++){
         let element = verticalBars[i];
-        let number = element.querySelector('.number');
-        number = parseInt(number.innerText);
+        let number = getNumber(element);
         // Hide previous items head
         if (i!=0){
             hideHead(verticalBars[i-1])
@@ -16,11 +15,12 @@ async function linear_search(x, verticalBars){
         // Show head on current item
         showHead(element);
         showTopHead(element)
+        setStatus(`Checking index ${i}`, "running");
         await sleep(300);
         if(number === parseInt(x)){
             found = true;
-            console.log("Found");
-            alert(`Found at position ${i+1}`);
+            setState(element, "found");
+            setStatus(`Found at index ${i}`, "found");
             // Hide head of current item
             hideAll(verticalBars);
             break;
@@ -28,7 +28,7 @@ async function linear_search(x, verticalBars){
     };
     if(!found){
         hideAll(verticalBars);
-        alert(`${x} Was not found in the array! :(`);
+        setStatus("Not found", "miss");
     } 
 }
 
