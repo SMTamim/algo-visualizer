@@ -8,6 +8,7 @@ const AlgoViz = window.AlgoViz;
 const arrayInputField = document.getElementById('inputArray');
 const arrayHint = document.getElementById('inputArrayHint');
 const searchField = document.getElementById('searchValue');
+const searchHint = document.getElementById('searchValueHint');
 const searchBox = document.getElementById('searchBox');
 const showActionBtn = document.getElementById('action');
 const stage = document.getElementById("stage");
@@ -20,6 +21,7 @@ const root = document.documentElement;
 
 const SEARCH_ALGORITHMS = ['0', '2'];
 const ARRAY_HINT = arrayHint.textContent;
+const SEARCH_HINT = searchHint.textContent;
 
 // Legend entries per algorithm: only the states that algorithm uses
 const LEGEND_MARKS = {
@@ -121,11 +123,21 @@ showActionBtn.addEventListener('click', async x =>{
     }
     clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
 
+    let selectedAlgorithm = selectAlgorithm.value;
+    // An empty search value used to make binary search "find" a 0
+    let searchValue = searchField.value;
+    if(SEARCH_ALGORITHMS.includes(selectedAlgorithm)){
+        if(!/^-?\d+$/.test(searchValue)){
+            showFieldError(searchField, searchHint, "Enter a whole number to search for.");
+            return;
+        }
+        clearFieldError(searchField, searchHint, SEARCH_HINT);
+        searchValue = Number(searchValue);
+    }
+
     // Each value's tile colour comes from its original index and moves with it
     const verticalBars = AlgoViz.renderStage(stage, new_array);
-    let searchValue = searchField.value;
 
-    let selectedAlgorithm = selectAlgorithm.value;
     if(selectedAlgorithm === ''){
         setStatus("Pick an algorithm");
         return;
