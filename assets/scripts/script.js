@@ -38,28 +38,16 @@ const LEGENDS = {
     '3': [['pointer', 'Comparing'], ['arrow', 'Smallest so far'], ['lift', 'About to swap'], ['sorted', 'Sorted']],
 };
 
+// Returns [error, values]; error is an empty string when the input is valid
 function getArrayFromInput(){
-    let input_array = arrayInputField.value.replace(/\s/g,'');
-    if(input_array.search(',') != -1){
-        input_array = input_array.replace(/[\[\]']+/g,'').split(',');
-    }
-    let new_array = []
-    let areAllInteger = true; 
-    try {
-        for(let i=0; i<input_array.length && i<10; i++) {
-            if(input_array[i] !== '[' && input_array[i]!== ']') {
-                if(isNaN(input_array[i])) {
-                    areAllInteger=false;
-                    break;
-                }
-                else if(parseInt(input_array[i])<=100)
-                    new_array.push(parseInt(input_array[i]));
-            }
-        };
-    } catch (error) {
-        console.error(error);
-    }
-    return [areAllInteger, new_array];
+    const tokens = arrayInputField.value.replace(/[\[\]\s]/g, '').split(',').filter(token => token !== '');
+    if(tokens.length === 0) return ["Enter at least one number.", []];
+    if(tokens.some(token => !/^-?\d+(\.\d+)?$/.test(token))) return ["Numbers only, please.", []];
+    if(tokens.some(token => !/^-?\d+$/.test(token))) return ["Whole numbers only, please.", []];
+    const values = tokens.map(Number);
+    if(values.some(value => value < 0 || value > 100)) return ["Keep each value between 0 and 100.", []];
+    if(values.length > 10) return ["Up to 10 values, please.", []];
+    return ["", values];
 }
 
 function showFieldError(field, hint, message){
@@ -126,10 +114,9 @@ onAlgorithmChange();
 AlgoViz.renderStage(stage, getArrayFromInput()[1]);
 
 showActionBtn.addEventListener('click', async x =>{
-    const [areAllInteger, new_array] = getArrayFromInput();
-    // console.log(areAllInteger, new_array);
-    if(!areAllInteger){
-        showFieldError(arrayInputField, arrayHint, "Numbers only, please.");
+    const [inputError, new_array] = getArrayFromInput();
+    if(inputError){
+        showFieldError(arrayInputField, arrayHint, inputError);
         return;
     }
     clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
