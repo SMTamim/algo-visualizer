@@ -54,11 +54,11 @@ assets/scripts/
   linear_search.js, binary_search.js, bubble_sort.js, selection_sort.js
 ```
 
-To add an algorithm, write an `async` function that takes the slots returned by `AlgoViz.renderStage`. Drive the visuals with the helpers in `common.js`: `showHead`, `swap`, `setState` and `setStatus`. Then add an `<option>` to the select and a legend entry in `script.js`.
+Want to add an algorithm? [CONTRIBUTING.md](CONTRIBUTING.md) walks through it step by step, with a working Insertion Sort example.
 
 ## Deployment
 
-Cloudflare Pages deploys `main` to https://algoviz.smtamim.dev on every push, with no build command. Pull requests get preview deployments.
+Cloudflare Pages deploys `main` to https://algoviz.smtamim.dev on every push, with no build command. Branches pushed to this repo get preview deployments.
 
 ## Author
 
