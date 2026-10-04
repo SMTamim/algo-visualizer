@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Four rising tiles in the design system's tile-1, tile-3, tile-5 and tile-7, each with the edge-tile under-edge -->
+  <rect x="1"  y="20" width="6" height="11" rx="1.5" fill="#ff6b5b"/>
+  <rect x="9"  y="14" width="6" height="17" rx="1.5" fill="#ffd23f"/>
+  <rect x="17" y="8"  width="6" height="23" rx="1.5" fill="#2ed8a3"/>
+  <rect x="25" y="2"  width="6" height="29" rx="1.5" fill="#6c9bff"/>
+  <g fill="#000" fill-opacity=".16">
+    <rect x="1"  y="29" width="6" height="2" rx="1"/>
+    <rect x="9"  y="29" width="6" height="2" rx="1"/>
+    <rect x="17" y="29" width="6" height="2" rx="1"/>
+    <rect x="25" y="29" width="6" height="2" rx="1"/>
+  </g>
+</svg>

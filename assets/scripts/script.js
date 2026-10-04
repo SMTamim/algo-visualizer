@@ -15,6 +15,9 @@ const stage = document.getElementById("stage");
 const stageTitle = document.getElementById('stageTitle');
 const legend = document.getElementById('legend');
 const selectAlgorithm = document.getElementById('algorithm');
+const algorithmHint = document.getElementById('algorithmHint');
+const NUDGE_MS = 3000;
+let nudgeTimer;
 const themeToggle = document.getElementById('themeToggle');
 const generateBtn = document.getElementById('generate');
 const root = document.documentElement;
@@ -50,6 +53,14 @@ function getArrayFromInput(){
     if(values.some(value => value < 0 || value > 100)) return ["Keep each value between 0 and 100.", []];
     if(values.length > 10) return ["Up to 10 values, please.", []];
     return ["", values];
+}
+
+// Fit the array field's height to its wrapped content
+function autosizeArrayField(){
+    const style = getComputedStyle(arrayInputField);
+    const borders = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+    arrayInputField.style.height = 'auto';
+    arrayInputField.style.height = `${arrayInputField.scrollHeight + borders}px`;
 }
 
 function showFieldError(field, hint, message){
@@ -95,17 +106,48 @@ function toggleTheme(){
     try { localStorage.setItem('theme', theme); } catch (e) {}
 }
 
+// Run was pressed with no algorithm: flag the select for a few seconds
+function nudgeAlgorithmSelect(){
+    clearTimeout(nudgeTimer);
+    selectAlgorithm.setAttribute('aria-invalid', 'true');
+    algorithmHint.hidden = false;
+    const wrap = selectAlgorithm.parentElement;
+    wrap.classList.remove('is-nudged');
+    void wrap.offsetWidth; // restart the shake
+    wrap.classList.add('is-nudged');
+    selectAlgorithm.focus();
+    nudgeTimer = setTimeout(clearAlgorithmNudge, NUDGE_MS);
+}
+
+function clearAlgorithmNudge(){
+    clearTimeout(nudgeTimer);
+    selectAlgorithm.removeAttribute('aria-invalid');
+    selectAlgorithm.parentElement.classList.remove('is-nudged');
+    algorithmHint.hidden = true;
+}
+
 function onAlgorithmChange(){
+    if(selectAlgorithm.value) clearAlgorithmNudge();
     const algorithm = selectAlgorithm.value;
     searchBox.hidden = !SEARCH_ALGORITHMS.includes(algorithm);
     stageTitle.textContent = algorithm ? selectAlgorithm.selectedOptions[0].text : 'Your array';
     renderLegend(algorithm);
 }
 
+arrayInputField.addEventListener('input', autosizeArrayField);
+// It's a list, not prose: Enter shouldn't add a line break
+arrayInputField.addEventListener('keydown', event => {
+    if(event.key === 'Enter') event.preventDefault();
+});
+window.addEventListener('resize', autosizeArrayField);
+autosizeArrayField();
+// Fira Code wraps differently from the fallback font, so measure again once it loads
+document.fonts?.ready.then(autosizeArrayField);
 themeToggle.addEventListener('click', toggleTheme);
 generateBtn.addEventListener('click', () => {
     const new_array = generateArray();
     arrayInputField.value = new_array.join(', ');
+    autosizeArrayField();
     clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
     AlgoViz.renderStage(stage, new_array);
     setStatus("Ready");
@@ -139,7 +181,7 @@ showActionBtn.addEventListener('click', async x =>{
     const verticalBars = AlgoViz.renderStage(stage, new_array);
 
     if(selectedAlgorithm === ''){
-        setStatus("Pick an algorithm");
+        nudgeAlgorithmSelect();
         return;
     }
 

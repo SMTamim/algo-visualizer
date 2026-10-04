@@ -30,6 +30,10 @@
 }
 
 .app-footer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-md);
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-lg) var(--space-lg);
@@ -38,6 +42,9 @@
 }
 .app-footer p{
     margin: 0;
+}
+.footer-links{
+    white-space: nowrap;
 }
 .app-footer a{
     color: var(--ink);
@@ -52,6 +59,85 @@
 .app-footer a:focus-visible{
     outline: 2px solid var(--focus-ring);
     outline-offset: 3px;
+}
+
+/* The array field wraps and grows instead of scrolling sideways */
+.av-input--grow{
+    display: block;
+    resize: none;
+    overflow: hidden;
+}
+
+/* Brackets drawn around the array field's contents, however many lines it wraps to */
+.array-field{
+    position: relative;
+    display: block;
+}
+.array-field::before,
+.array-field::after{
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    width: 7px;
+    border: 2.5px solid var(--ink-muted);
+    pointer-events: none;
+    transition: border-color .15s ease;
+}
+.array-field::before{
+    left: 12px;
+    border-right: 0;
+    border-radius: 3px 0 0 3px;
+}
+.array-field::after{
+    right: 12px;
+    border-left: 0;
+    border-radius: 0 3px 3px 0;
+}
+.array-field .av-input{
+    padding-left: 28px;
+    padding-right: 28px;
+}
+/* No border: the brackets carry the hover, focus and error states instead */
+.array-field .av-input,
+.array-field .av-input:hover,
+.array-field .av-input:focus,
+.array-field .av-input[aria-invalid="true"]{
+    border-color: transparent;
+}
+.array-field:hover::before,
+.array-field:hover::after{
+    border-color: var(--ink);
+}
+.array-field:focus-within::before,
+.array-field:focus-within::after{
+    border-color: var(--focus-ring);
+}
+.array-field:has([aria-invalid="true"])::before,
+.array-field:has([aria-invalid="true"])::after{
+    border-color: var(--signal-miss);
+}
+
+/* Nudge when Run is pressed with no algorithm chosen */
+.av-select[aria-invalid="true"]{
+    border-color: var(--signal-miss);
+}
+.av-select-wrap{
+    display: block; /* inline spans can't be transformed */
+}
+.av-select-wrap.is-nudged{
+    animation: nudge .4s ease-in-out;
+}
+@keyframes nudge{
+    20%{ transform: translateX(-6px); }
+    40%{ transform: translateX(6px); }
+    60%{ transform: translateX(-4px); }
+    80%{ transform: translateX(4px); }
+}
+@media (prefers-reduced-motion: reduce){
+    .av-select-wrap.is-nudged{
+        animation: none;
+    }
 }
 
 .panel-secondary-action{
