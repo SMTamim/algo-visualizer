@@ -21,6 +21,11 @@
     <script src="design-system/algoviz.js"></script>
 </head>
 <body class="av-root">
+    <header class="app-header">
+        <h1 class="h2 app-title">Algo Visualizer</h1>
+        <button type="button" class="av-btn av-btn--secondary" id="themeToggle">Dark theme</button>
+    </header>
+
     <main class="app">
         <section class="av-panel" id="getInput" aria-labelledby="panelTitle">
             <h2 class="av-panel__title" id="panelTitle">Set up a run</h2>
@@ -57,12 +62,9 @@
         <section class="av-stage" aria-labelledby="stageTitle">
             <div class="av-stage__head">
                 <h2 class="av-stage__title" id="stageTitle">Your array</h2>
-                <div class="stage-head-actions">
-                    <span class="av-status" id="status" role="status" aria-live="polite">
-                        <span class="av-status__dot"></span><span id="statusText">Ready</span>
-                    </span>
-                    <button type="button" class="av-btn av-btn--secondary" id="themeToggle">Dark theme</button>
-                </div>
+                <span class="av-status" id="status" role="status" aria-live="polite">
+                    <span class="av-status__dot"></span><span id="statusText">Ready</span>
+                </span>
             </div>
             <div class="av-stage__floor" id="stage"></div>
             <div class="av-stage__legend" id="legend"></div>

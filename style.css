@@ -4,6 +4,20 @@
     display: none !important;
 }
 
+.app-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-lg) 0;
+    box-sizing: border-box;
+}
+.app-title{
+    margin: 0;
+}
+
 .app{
     display: grid;
     grid-template-columns: 360px minmax(0, 1fr);
@@ -11,20 +25,12 @@
     padding: var(--space-lg);
     max-width: 1200px;
     margin: 0 auto;
-    min-height: 100vh;
     box-sizing: border-box;
     align-items: start;
 }
 
 .panel-secondary-action{
     align-self: flex-start;
-}
-
-.stage-head-actions{
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
 }
 
 /* Room for the tallest tile plus its arrow, pointer and lift */
@@ -76,6 +82,9 @@
     }
 }
 @media (max-width: 759px){
+    .app-header{
+        padding: var(--space-md) var(--space-md) 0;
+    }
     .app{
         padding: var(--space-md);
         gap: var(--space-md);
