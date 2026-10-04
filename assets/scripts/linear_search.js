@@ -20,7 +20,7 @@ async function linear_search(x, verticalBars){
         if(number === parseInt(x)){
             found = true;
             setState(element, "found");
-            setStatus(`Found at position ${i+1}`, "found");
+            setStatus(`Found at index ${i}`, "found");
             // Hide head of current item
             hideAll(verticalBars);
             break;

@@ -33,7 +33,7 @@ async function binary_search(x, new_array, verticalBars){
         if(midNumber == x){
             hideAll(verticalBars);
             setState(verticalBars[mid], "found");
-            setStatus(`Found at position ${mid}`, "found");
+            setStatus(`Found at index ${mid}`, "found");
             return;
         }
         else{
