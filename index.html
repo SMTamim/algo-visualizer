@@ -5,6 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algo Visualizer</title>
+    <script>
+        // Pick the theme before first paint: saved choice, else the system setting
+        (function () {
+            var theme;
+            try { theme = localStorage.getItem('theme'); } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark')
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <link rel="stylesheet" href="design-system/tokens.css">
     <link rel="stylesheet" href="design-system/components.css">
     <link rel="stylesheet" href="style.css">
@@ -46,9 +56,12 @@
         <section class="av-stage" aria-labelledby="stageTitle">
             <div class="av-stage__head">
                 <h2 class="av-stage__title" id="stageTitle">Your array</h2>
-                <span class="av-status" id="status" role="status" aria-live="polite">
-                    <span class="av-status__dot"></span><span id="statusText">Ready</span>
-                </span>
+                <div class="stage-head-actions">
+                    <span class="av-status" id="status" role="status" aria-live="polite">
+                        <span class="av-status__dot"></span><span id="statusText">Ready</span>
+                    </span>
+                    <button type="button" class="av-btn av-btn--secondary" id="themeToggle">Dark theme</button>
+                </div>
             </div>
             <div class="av-stage__floor" id="stage"></div>
             <div class="av-stage__legend" id="legend"></div>

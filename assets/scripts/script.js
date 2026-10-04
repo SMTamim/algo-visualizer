@@ -14,6 +14,8 @@ const stage = document.getElementById("stage");
 const stageTitle = document.getElementById('stageTitle');
 const legend = document.getElementById('legend');
 const selectAlgorithm = document.getElementById('algorithm');
+const themeToggle = document.getElementById('themeToggle');
+const root = document.documentElement;
 
 const SEARCH_ALGORITHMS = ['0', '2'];
 const ARRAY_HINT = arrayHint.textContent;
@@ -84,6 +86,18 @@ function setRunning(running){
     showActionBtn.textContent = running ? 'Running…' : 'Show the action';
 }
 
+// The button names the theme it switches to
+function syncThemeToggle(){
+    themeToggle.textContent = root.dataset.theme === 'dark' ? 'Light theme' : 'Dark theme';
+}
+
+function toggleTheme(){
+    const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = theme;
+    syncThemeToggle();
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+}
+
 function onAlgorithmChange(){
     const algorithm = selectAlgorithm.value;
     searchBox.hidden = !SEARCH_ALGORITHMS.includes(algorithm);
@@ -91,6 +105,8 @@ function onAlgorithmChange(){
     renderLegend(algorithm);
 }
 
+themeToggle.addEventListener('click', toggleTheme);
+syncThemeToggle();
 selectAlgorithm.addEventListener('change', onAlgorithmChange);
 onAlgorithmChange();
 AlgoViz.renderStage(stage, getArrayFromInput()[1]);
