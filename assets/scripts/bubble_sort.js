@@ -30,10 +30,8 @@ async function bubble_sort(new_array, verticalBars, sleep_time){
                 setState(nextBar);
                 await sleep(sleep_time/2);
             }
-            else if(currentNumber<nextNumber){
-                hideHead(currentBar)
-                hideHead(nextBar)
-            }
+            hideHead(currentBar)
+            hideHead(nextBar)
         }
         setState(verticalBars[new_array.length-i-1], "sorted");
     }
@@ -57,10 +55,8 @@ function not_synchronous_bubble_sort(new_array, verticalBars){
             if(currentNumber > nextNumber){
                 swap(currentBar, nextBar);
             }
-            else if(currentNumber<nextNumber){
-                hideHead(currentBar)
-                hideHead(nextBar)
-            }
+            hideHead(currentBar)
+            hideHead(nextBar)
         }
     }
 }
