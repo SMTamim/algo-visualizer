@@ -91,6 +91,17 @@
     padding-left: 28px;
     padding-right: 28px;
 }
+/* No border: the brackets carry the hover, focus and error states instead */
+.array-field .av-input,
+.array-field .av-input:hover,
+.array-field .av-input:focus,
+.array-field .av-input[aria-invalid="true"]{
+    border-color: transparent;
+}
+.array-field:hover::before,
+.array-field:hover::after{
+    border-color: var(--ink);
+}
 .array-field:focus-within::before,
 .array-field:focus-within::after{
     border-color: var(--focus-ring);
