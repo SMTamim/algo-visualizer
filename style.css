@@ -16,6 +16,10 @@
     align-items: start;
 }
 
+.panel-secondary-action{
+    align-self: flex-start;
+}
+
 .stage-head-actions{
     display: flex;
     align-items: center;

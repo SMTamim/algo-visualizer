@@ -15,6 +15,7 @@ const stageTitle = document.getElementById('stageTitle');
 const legend = document.getElementById('legend');
 const selectAlgorithm = document.getElementById('algorithm');
 const themeToggle = document.getElementById('themeToggle');
+const generateBtn = document.getElementById('generate');
 const root = document.documentElement;
 
 const SEARCH_ALGORITHMS = ['0', '2'];
@@ -80,8 +81,14 @@ function renderLegend(algorithm){
         .join('');
 }
 
+function generateArray(){
+    const length = 6 + Math.floor(Math.random()*5); // 6 to 10 values
+    return Array.from({length}, () => Math.floor(Math.random()*101));
+}
+
 function setRunning(running){
     showActionBtn.disabled = running;
+    generateBtn.disabled = running;
     selectAlgorithm.disabled = running;
     showActionBtn.textContent = running ? 'Running…' : 'Show the action';
 }
@@ -106,6 +113,13 @@ function onAlgorithmChange(){
 }
 
 themeToggle.addEventListener('click', toggleTheme);
+generateBtn.addEventListener('click', () => {
+    const new_array = generateArray();
+    arrayInputField.value = new_array.join(', ');
+    clearFieldError(arrayInputField, arrayHint, ARRAY_HINT);
+    AlgoViz.renderStage(stage, new_array);
+    setStatus("Ready");
+});
 syncThemeToggle();
 selectAlgorithm.addEventListener('change', onAlgorithmChange);
 onAlgorithmChange();
